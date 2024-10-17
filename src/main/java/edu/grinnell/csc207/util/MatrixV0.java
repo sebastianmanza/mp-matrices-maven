@@ -297,12 +297,12 @@ public class MatrixV0<T> implements Matrix<T> {
       throw new IndexOutOfBoundsException();
     }
     T[][] tempArr = (T[][]) new Object[this.width - 1][this.height];
-    for (int i = 0; i < this.width - 1; i++) {
+    for (int i = 0; i < this.width; i++) {
       for (int j = 0; j < this.height; j++) {
-        if (i >= col) {
-          tempArr[j][i] = this.matrix[j][i + 1];
-        } else {
-          tempArr[j][i] = this.matrix[j][i];
+        if (i < col) {
+          tempArr[i][j] = this.matrix[i][j];
+        } else if (i > col){
+          tempArr[i - 1][j] = this.matrix[i][j];
         } // if/else
       } // for
     } // for
@@ -346,8 +346,13 @@ public class MatrixV0<T> implements Matrix<T> {
    * @throw IndexOutOfBoundsException If the rows or columns are inappropriate.
    */
   public void fillLine(int startRow, int startCol, int deltaRow, int deltaCol, int endRow,
-      int endCol, T val) {
-    // STUB
+      int endCol, T val) throws IndexOutOfBoundsException{
+        if (startRow < 0 || startCol < 0 || endRow > this.height || endCol > this.height) {
+          throw new IndexOutOfBoundsException();
+        } //if
+        for (int i = startRow, j = startCol; i < endRow || j < endCol; i += deltaRow, j += deltaCol) {
+          this.matrix[i][j] = val;
+        } //for
   } // fillLine(int, int, int, int, int, int, T)
 
   /**

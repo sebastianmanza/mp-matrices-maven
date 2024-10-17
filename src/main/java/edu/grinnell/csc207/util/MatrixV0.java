@@ -177,7 +177,7 @@ public class MatrixV0<T> implements Matrix<T> {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         if (i == row) {
-          tempArr[j][i] = vals[i];
+          tempArr[j][i] = vals[j];
         } else {
           if (i < row) {
             tempArr[j][i] = this.matrix[j][i];
@@ -207,12 +207,12 @@ public class MatrixV0<T> implements Matrix<T> {
     for (int i = 0; i < width; i++) {
       for (int j = 0; j < height; j++) {
         if (i == col) {
-          tempArr[i][j] = this.def;
+          tempArr[j][i] = this.def;
         } else {
           if (i < col) {
-            tempArr[i][j] = this.matrix[i][j];
+            tempArr[j][i] = this.matrix[j][i];
           } else {
-            tempArr[i - 1][j] = this.matrix[i][j];
+            tempArr[j][i + 1] = this.matrix[j][i];
           } // if/else
         } // if/else
       } // for
@@ -242,12 +242,12 @@ public class MatrixV0<T> implements Matrix<T> {
     for (int i = 0; i < width; i++) {
       for (int j = 0; j < height; j++) {
         if (i == col) {
-          tempArr[i][j] = vals[j];
+          tempArr[j][i] = vals[j];
         } else {
           if (i < col) {
-            tempArr[i][j] = this.matrix[i][j];
+            tempArr[j][i] = this.matrix[j][i];
           } else {
-            tempArr[i - 1][j] = this.matrix[i][j];
+            tempArr[j][i + 1] = this.matrix[j][i];
           } // if/else
         } // if/else
       } // for
@@ -292,7 +292,21 @@ public class MatrixV0<T> implements Matrix<T> {
    *         width.
    */
   public void deleteCol(int col) {
-    // STUB
+    if ((col < 0) || (col >= this.width)) {
+      throw new IndexOutOfBoundsException();
+    }
+    T[][] tempArr = (T[][]) new Object[this.width - 1][this.height];
+    for (int i = 0; i < this.width - 1; i++) {
+      for (int j = 0; j < this.height; j++) {
+        if (i >= col) {
+          tempArr[j][i] = this.matrix[j][i + 1];
+        } else {
+          tempArr[j][i] = this.matrix[j][i];
+        } // if/else
+      } // for
+    } // for
+    this.width--;
+    this.matrix = tempArr;
   } // deleteCol(int)
 
   /**
@@ -306,8 +320,15 @@ public class MatrixV0<T> implements Matrix<T> {
    *
    * @throw IndexOutOfBoundsException If the rows or columns are inappropriate.
    */
-  public void fillRegion(int startRow, int startCol, int endRow, int endCol, T val) {
-    // STUB
+  public void fillRegion(int startRow, int startCol, int endRow, int endCol, T val) throws IndexOutOfBoundsException{
+    if ((startRow < 0) || (startCol < 0) || (endRow > this.height) || (endCol > this.width)) {
+      throw new IndexOutOfBoundsException();
+    } //if
+    for (int i = startRow; i < endRow - startRow; i++) {
+      for (int j = startCol; j < endCol - startCol; j++) {
+        this.matrix[j][i] = val;
+      } //for
+    } //for
   } // fillRegion(int, int, int, int, T)
 
   /**
@@ -335,7 +356,11 @@ public class MatrixV0<T> implements Matrix<T> {
    * @return a copy of the matrix.
    */
   public Matrix clone() {
-    return this; // STUB
+    T[][] tempArr = (T[][]) new Object[][];
+    for (int i = 0; i < this.width; i++) {
+      for (int j = 0; j < this.height; j++)
+    }
+    return ; // STUB
   } // clone()
 
   /**

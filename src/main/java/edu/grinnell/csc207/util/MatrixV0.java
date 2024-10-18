@@ -174,15 +174,15 @@ public class MatrixV0<T> implements Matrix<T> {
       throw new IndexOutOfBoundsException();
     } // if
     T[][] tempArr = (T[][]) new Object[this.width][this.height + 1];
-    for (int i = 0; i < this.width; i++) {
-      for (int j = 0; j < this.height + 1; j++) {
+    for (int i = 0; i < this.height + 1; i++) {
+      for (int j = 0; j < this.width; j++) {
         if (j == row) {
           tempArr[i][j] = vals[i];
         } else {
           if (j < row) {
             tempArr[i][j] = this.matrix[i][j];
           } else {
-            tempArr[i][j] = this.matrix[i][j - 1];
+            tempArr[i][j] = this.matrix[i - 1][j];
           } // if/else
         } // if/else
       } // for
@@ -204,15 +204,15 @@ public class MatrixV0<T> implements Matrix<T> {
       throw new IndexOutOfBoundsException();
     } // if
     T[][] tempArr = (T[][]) new Object[this.width + 1][this.height];
-    for (int i = 0; i < this.width + 1; i++) {
-      for (int j = 0; j < this.height; j++) {
-        if (i == col) {
+    for (int i = 0; i < this.height; i++) {
+      for (int j = 0; j < this.width + 1; j++) {
+        if (j == col) {
           tempArr[i][j] = this.def;
         } else {
-          if (i < col) {
+          if (j < col) {
             tempArr[i][j] = this.matrix[i][j];
           } else {
-            tempArr[i][j] = this.matrix[i - 1][j];
+            tempArr[i][j] = this.matrix[i][j - 1];
           } // if/else
         } // if/else
       } // for
@@ -239,15 +239,15 @@ public class MatrixV0<T> implements Matrix<T> {
       throw new ArraySizeException();
     }
     T[][] tempArr = (T[][]) new Object[this.width + 1][this.height];
-    for (int i = 0; i < this.width + 1; i++) {
-      for (int j = 0; j < height; j++) {
-        if (i == col) {
+    for (int i = 0; i < this.height; i++) {
+      for (int j = 0; j < width + 1; j++) {
+        if (j == col) {
           tempArr[i][j] = vals[j];
         } else {
-          if (i < col) {
+          if (j < col) {
             tempArr[i][j] = this.matrix[i][j];
           } else {
-            tempArr[i][j] = this.matrix[i - 1][j];
+            tempArr[i][j] = this.matrix[i][j - 1];
           } // if/else
         } // if/else
       } // for

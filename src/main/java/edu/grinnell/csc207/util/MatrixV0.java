@@ -174,15 +174,15 @@ public class MatrixV0<T> implements Matrix<T> {
       throw new IndexOutOfBoundsException();
     } // if
     T[][] tempArr = (T[][]) new Object[this.width][this.height + 1];
-    for (int i = 0; i < this.height + 1; i++) {
-      for (int j = 0; j < this.width; j++) {
+    for (int i = 0; i < this.width; i++) {
+      for (int j = 0; j < this.height + 1; j++) {
         if (j == row) {
           tempArr[i][j] = vals[i];
         } else {
           if (j < row) {
             tempArr[i][j] = this.matrix[i][j];
           } else {
-            tempArr[i][j] = this.matrix[i - 1][j];
+            tempArr[i][j] = this.matrix[i][j - 1];
           } // if/else
         } // if/else
       } // for
@@ -200,19 +200,19 @@ public class MatrixV0<T> implements Matrix<T> {
    */
   @SuppressWarnings("unchecked")
   public void insertCol(int col) throws IndexOutOfBoundsException {
-    if (col < 0 || col > this.height) {
+    if (col < 0 || col > this.width) {
       throw new IndexOutOfBoundsException();
     } // if
     T[][] tempArr = (T[][]) new Object[this.width + 1][this.height];
-    for (int i = 0; i < this.height; i++) {
-      for (int j = 0; j < this.width + 1; j++) {
-        if (j == col) {
+    for (int i = 0; i < this.width + 1; i++) {
+      for (int j = 0; j < this.height; j++) {
+        if (i == col) {
           tempArr[i][j] = this.def;
         } else {
-          if (j < col) {
+          if (i < col) {
             tempArr[i][j] = this.matrix[i][j];
           } else {
-            tempArr[i][j] = this.matrix[i][j - 1];
+            tempArr[i][j] = this.matrix[i - 1][j];
           } // if/else
         } // if/else
       } // for
@@ -239,15 +239,15 @@ public class MatrixV0<T> implements Matrix<T> {
       throw new ArraySizeException();
     }
     T[][] tempArr = (T[][]) new Object[this.width + 1][this.height];
-    for (int i = 0; i < this.height; i++) {
-      for (int j = 0; j < width + 1; j++) {
-        if (j == col) {
+    for (int i = 0; i < this.width + 1; i++) {
+      for (int j = 0; j < this.height; j++) {
+        if (i == col) {
           tempArr[i][j] = vals[j];
         } else {
-          if (j < col) {
+          if (i < col) {
             tempArr[i][j] = this.matrix[i][j];
           } else {
-            tempArr[i][j] = this.matrix[i][j - 1];
+            tempArr[i][j] = this.matrix[i - 1][j];
           } // if/else
         } // if/else
       } // for
@@ -325,9 +325,9 @@ public class MatrixV0<T> implements Matrix<T> {
     if ((startRow < 0) || (startCol < 0) || (endRow > this.height) || (endCol > this.width)) {
       throw new IndexOutOfBoundsException();
     } //if
-    for (int i = startRow; i < endRow - startRow; i++) {
-      for (int j = startCol; j < endCol - startCol; j++) {
-        this.matrix[j][i] = val;
+    for (int i = startCol; i < endCol; i++) {
+      for (int j = startRow; j < endRow; j++) {
+        this.matrix[i][j] = val;
       } //for
     } //for
   } // fillRegion(int, int, int, int, T)
@@ -350,8 +350,8 @@ public class MatrixV0<T> implements Matrix<T> {
         if (startRow < 0 || startCol < 0 || endRow > this.height || endCol > this.height) {
           throw new IndexOutOfBoundsException();
         } //if
-        for (int i = startRow, j = startCol; i < endRow || j < endCol; i += deltaRow, j += deltaCol) {
-          this.matrix[i][j] = val;
+        for (int i = startRow, j = startCol; ((i < endRow) && (j < endCol)); i += deltaRow, j += deltaCol) {
+          this.matrix[j][i] = val;
         } //for
   } // fillLine(int, int, int, int, int, int, T)
 
@@ -380,7 +380,7 @@ public class MatrixV0<T> implements Matrix<T> {
       if (this.width == otherMatrix.width() && this.height == otherMatrix.height()) {
         for (int i = 0; i < this.width; i++) {
           for (int j = 0; j < this.height; j++) {
-            if (this.matrix[i][j] != otherMatrix.get(i, j)) {
+            if (!this.get(j, i).equals(otherMatrix.get(i, j))) {
               return false;
             } //if
           } //for

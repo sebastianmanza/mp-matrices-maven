@@ -380,7 +380,7 @@ public class MatrixV0<T> implements Matrix<T> {
       if (this.width == otherMatrix.width() && this.height == otherMatrix.height()) {
         for (int i = 0; i < this.width; i++) {
           for (int j = 0; j < this.height; j++) {
-            if (!this.get(j, i).equals(otherMatrix.get(i, j))) {
+            if (!this.get(j, i).equals(otherMatrix.get(j, i))) {
               return false;
             } //if
           } //for
